@@ -10,7 +10,7 @@ interface DayInterface {
     month: number,
     year: number,
     weekday: number
-    getTime(): number
+    time: number
 }
 class Day implements DayInterface {
     type: string
@@ -31,7 +31,7 @@ class Day implements DayInterface {
     get weekday() {
         return this.#date.getDay()
     }
-    getTime() {
+    get time() {
         return this.#date.getTime()
     }
 }
@@ -60,7 +60,7 @@ let startEndDays: {start: Day, end: Day} = {
 holidays.forEach((e) => {
     const date = new Date(e)
     const day = new Day(date.getDate(), date.getMonth() + 1, date.getFullYear(), "H")
-    allExceptionDays.splice(day.getTime(), 0, day)
+    allExceptionDays.splice(day.time, 0, day)
 })
 
 
@@ -77,25 +77,32 @@ Object.keys(startend).forEach((key) => {
         default:
             throw new TypeError()
     } 
-    allExceptionDays.splice(day.getTime(), 0, day)
+    allExceptionDays.splice(day.time, 0, day)
 })
 
 Object.keys(fridays).forEach((key) => {
     const date = new Date(key)
     const day = new Day(date.getDate(), date.getMonth() + 1, date.getFullYear(), fridays[key])
-    allExceptionDays.splice(day.getTime(), 0, day)
+    allExceptionDays.splice(day.time, 0, day)
 })
 
 const resolvers = {
     Query: {
       getDay: async (source, args: {day: number, month: number, year: number}) => {
             const date = new Day(args.day, args.month, args.year, "tmp")
-            if(date.getTime() > startEndDays.end.getTime() || date.getTime() < startEndDays.start.getTime()) {
+            if(date.time > startEndDays.end.time || date.time < startEndDays.start.time) {
                 date.type = "O"
                 return date;
             }
-            if(allExceptionDays[date.getTime()]) {
-                return allExceptionDays[date.getTime()]
+            const dateTimeChecker = (element) => {
+                if (element.time == date.time) {
+                    return true
+                } else {
+                    return false
+                }
+            }
+            if(allExceptionDays.findIndex(dateTimeChecker) != -1) {
+                return allExceptionDays[allExceptionDays.findIndex(dateTimeChecker)]
             } else {
                 switch(date.weekday) {
                     case 0:
