@@ -1,2 +1,8 @@
 [[plugins]]
+
 package = "@netlify/plugin-functions-install-core"
+
+[[redirects]]
+  from = "/graphql"
+  to = "/.netlify/functions/graphql"
+  status = 200
