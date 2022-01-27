@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@netlify/functions": "^0.11.0",
+    "apollo-server-lambda": "^3.6.2"
+  }
+}

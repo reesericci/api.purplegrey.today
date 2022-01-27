@@ -1,0 +1,4 @@
+netlify/functions/day/node_modules
+netlify/functions/graphql/node_modules
+.netlify
+api.purplegrey.today.code-workspace

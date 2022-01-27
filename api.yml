@@ -1,0 +1,87 @@
+openapi: 3.0.0
+info:
+  title: api.purplegrey.today
+  description: The API for purplegrey.today
+  
+servers:
+  - url: https://api.purplegrey.today/.netlify/functions
+
+paths:
+  /day:
+    get:
+      summary: Day type
+      description: >
+        Returns the day type for the date you specify. It will return a single letter and a corresponding HTTP status code which represents the day type.
+      parameters:
+        - in: query
+          name: month
+          schema:
+            type: integer
+          required: true
+          example: 1
+        - in: query
+          name: day
+          schema:
+            type: integer
+          required: true
+          example: 1
+        - in: query
+          name: year
+          schema:
+            type: integer
+          required: true
+          example: 2001
+      x-codeSamples:
+        - lang: "URL"
+          label: "Web Browser"
+          source: https://api.purplegrey.today/.netlify/functions/day?month=1&day=1&year=2001
+        - lang: "cURL"
+          source: | 
+            curl -X 'GET' \
+            'https://api.purplegrey.today/.netlify/functions/day?month=1&day=1&year=2001' \
+            -H 'accept: application/json'
+        - lang: "Javascript"
+          source: |
+            fetch('https://api.purplegrey.today/.netlify/functions/day?' + new URLSearchParams({
+              month: 1,
+              day: 1,
+              year: 2001,
+            })).then(response => response.json()).then(data => console.log(data.daytype));
+      responses:
+        '240':
+          description: A - Purple day
+          content:
+            application/json:
+              schema:
+                type: json
+                example: {"daytype": "A"}
+        '241':
+          description: B - Grey day
+          content:
+            application/json:
+              schema:
+                type: json
+                example: {"daytype": "B"}
+        '242':
+          description: H - Holiday
+          content:
+            application/json:
+              schema:
+                type: json
+                example: {"daytype": "H"}
+        '243':
+          description: W - Weekend
+          content:
+            application/json:
+              schema:
+                type: json
+                example: {"daytype": "W"}
+        '244':
+          description: S - Summer
+          content:
+            application/json:
+              schema:
+                type: json
+                example: {"daytype": "S"}
+        '500':
+          description: 'Error'
