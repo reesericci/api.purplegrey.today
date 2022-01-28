@@ -41,7 +41,7 @@ const typeDefs = gql`
         day: Int!
         month: Int!
         year: Int!,
-        time: Int!
+        time: Float!
         weekday: Int!
         type: String!
     }
